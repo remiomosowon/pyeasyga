@@ -11,7 +11,7 @@ help:
 	@echo "release - package and upload a release"
 	@echo "dist - package"
 
-clean: clean-build clean-pyc
+clean: clean-build clean-pyc clean-tox
 	rm -fr htmlcov/
 
 clean-build:
@@ -23,6 +23,9 @@ clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
+
+clean-tox:
+	rm -fr *.egg
 
 lint:
 	flake8 pyeasyga tests
