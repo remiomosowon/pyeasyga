@@ -1,5 +1,5 @@
 ===============================
-Easy Genetic Algorithm
+pyeasyga
 ===============================
 
 .. image:: https://badge.fury.io/py/pyeasyga.png
@@ -17,7 +17,12 @@ An easy-to-use Genetic Algorithm implementation in Python
 * Free software: BSD license
 * Documentation: http://pyeasyga.readthedocs.org.
 
+**Note:** This library is currently in development.
+
+``pyeasyga`` provides a simple interface to the power of Genetic Algorithms
+(GAs). You don't have to have expert GA knowledge in order to use it.
+
 Features
 --------
 
-* TODO
+* Work in progress
