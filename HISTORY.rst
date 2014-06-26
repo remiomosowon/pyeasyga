@@ -3,7 +3,7 @@
 History
 -------
 
-0.1.0 (2014-07-12)
----------------------
+2014-06-23
+~~~~~~~~~~~
 
-* First release on PyPI.
+* Start of ``pyeasyga`` development.
