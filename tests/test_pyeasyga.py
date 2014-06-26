@@ -74,10 +74,30 @@ class TestPyeasyga(unittest.TestCase):
         pass
 
     def test_mutate_function(self):
-        pass
+        ga = pyeasyga.GeneticAlgorithm(self.seed_data)
+
+        def mutate(individual):
+            mutate_index = random.randrange(len(individual))
+            individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
+
+        ga.mutate_function = mutate
+
+        individual = [0, 1, 1, 0]
+        ga.mutate_function(individual)
+
+        res = [x == y for (x, y) in zip(individual, [0, 1, 1, 0])]
+
+        assert individual != [0, 1, 1, 0]
+        assert res.count(False) == 1
 
     def test_selection_function(self):
-        pass
+        ga = pyeasyga.GeneticAlgorithm(self.seed_data)
+        ga.selection_function = lambda population: population[
+            random.randrange(len(population))]
+        individual = ga.selection_function(self.population)
+
+        assert len(individual) == 4
+        assert individual in self.population
 
     def test_create_individual(self):
         ga = pyeasyga.GeneticAlgorithm(self.seed_data)
