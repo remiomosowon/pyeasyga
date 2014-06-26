@@ -37,7 +37,7 @@ test_requirements = ['tox']
 setup(
     name='pyeasyga',
     version=find_version('pyeasyga', '__init__.py'),
-    description='An easy-to-use Genetic Algorithm implementation in Python',
+    description='A simple and easy-to-use Genetic Algorithm implementation in Python',
     long_description=readme + '\n\n' + history,
     author='Ayodeji Remi-Omosowon',
     author_email='remiomosowon@gmail.com',

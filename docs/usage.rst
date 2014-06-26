@@ -2,6 +2,6 @@
 Usage
 ========
 
-To use Easy Genetic Algorithm in a project::
+To use pyeasyga in a project::
 
 	import pyeasyga
