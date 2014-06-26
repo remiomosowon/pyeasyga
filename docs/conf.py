@@ -55,7 +55,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Easy Genetic Algorithm'
+project = u'pyeasyga'
 copyright = u'2014, Ayodeji Remi-Omosowon'
 
 # The version info for the project you're documenting, acts as replacement
@@ -221,7 +221,7 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'pyeasyga.tex',
-     u'Easy Genetic Algorithm Documentation',
+     u'pyeasyga Documentation',
      u'Ayodeji Remi-Omosowon', 'manual'),
 ]
 
@@ -252,7 +252,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'pyeasyga',
-     u'Easy Genetic Algorithm Documentation',
+     u'pyeasyga Documentation',
      [u'Ayodeji Remi-Omosowon'], 1)
 ]
 
@@ -267,10 +267,10 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'pyeasyga',
-     u'Easy Genetic Algorithm Documentation',
+     u'pyeasyga Documentation',
      u'Ayodeji Remi-Omosowon',
      'pyeasyga',
-     'An easy-to-use Genetic Algorithm implementation in Python.',
+     'A simple and easy-to-use Genetic Algorithm implementation in Python.',
      'Optimisation algorithms'),
 ]
 
