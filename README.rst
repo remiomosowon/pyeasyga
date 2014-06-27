@@ -11,18 +11,17 @@ pyeasyga
 .. image:: https://pypip.in/d/pyeasyga/badge.png
         :target: https://pypi.python.org/pypi/pyeasyga
 
+-------------------------------------------------------------------
 
 A simple and easy-to-use Genetic Algorithm implementation in Python
-
-* Free software: BSD license
-* Documentation: http://pyeasyga.readthedocs.org.
-
-**Note:** This project is currently under development.
 
 ``pyeasyga`` provides a simple interface to the power of Genetic Algorithms
 (GAs). You don't have to have expert GA knowledge in order to use it.
 
-Features
+* Free software: BSD license
+* Documentation: http://pyeasyga.readthedocs.org.
+
+Note
 --------
 
-* Work in progress
+* Currently under development

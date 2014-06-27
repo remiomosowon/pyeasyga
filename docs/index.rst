@@ -3,10 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to pyeasyga's documentation!
+pyeasyga
 ==================================================
 
-Contents:
+*A simple and easy-to-use Genetic Algorithm implementation in Python*
+
+**Contents:**
 
 .. toctree::
    :maxdepth: 2
