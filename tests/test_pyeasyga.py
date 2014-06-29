@@ -37,6 +37,8 @@ class TestPyeasyga(unittest.TestCase):
         self.population.append(member_4)
 
         self.ga = pyeasyga.GeneticAlgorithm(self.seed_data)
+        self.ga.population_size = 10
+        self.ga.generations = 10
         self.ga.create_individual = lambda data: [
             random.randint(0, 1) for _ in xrange(len(data))]
         self.ga.fitness_function = lambda member, data: sum(
@@ -202,8 +204,7 @@ class TestPyeasyga(unittest.TestCase):
         self.ga.rank_population(population, True)
 
         assert population[0].fitness == new_population[0].fitness
-        assert population[50].fitness == new_population[50].fitness
-        assert population[99].fitness == new_population[99].fitness
+        assert population[1].fitness == new_population[1].fitness
 
     def test_create_new_population(self):
         data = self.seed_data
