@@ -20,11 +20,30 @@ class GeneticAlgorithm(object):
         self.current_generation = []
         self.elitism = True
         self.maximise_fitness = True
-        self.create_individual = None
+
+        ''' Setup default genetic operators that work on a bit array solution
+            representation. '''
+        def create_individual(seed_data):
+            return [random.randint(0, 1) for _ in xrange(len(seed_data))]
+
+        def crossover(parent_1, parent_2):
+            index = random.randrange(1, len(parent_1))
+            child_1 = parent_1[:index] + parent_2[index:]
+            child_2 = parent_2[:index] + parent_1[index:]
+            return child_1, child_2
+
+        def mutate(individual):
+            mutate_index = random.randrange(len(individual))
+            individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
+
+        def random_selection(population):
+            return random.choice(population)
+
+        self.create_individual = create_individual
         self.fitness_function = None
-        self.crossover_function = None
-        self.mutate_function = None
-        self.selection_function = None
+        self.crossover_function = crossover
+        self.mutate_function = mutate
+        self.selection_function = random_selection
 
     def create_initial_population(
             self, seed_data, population_size, create_individual):
