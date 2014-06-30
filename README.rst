@@ -6,13 +6,13 @@ pyeasyga
     :target: http://badge.fury.io/py/pyeasyga
     
 .. image:: https://travis-ci.org/remiomosowon/pyeasyga.png?branch=develop
-        :target: https://travis-ci.org/remiomosowon/pyeasyga
+    :target: https://travis-ci.org/remiomosowon/pyeasyga
 
-.. image:: https://coveralls.io/repos/remiomosowon/pyeasyga/badge.png
-        :target: https://coveralls.io/r/remiomosowon/pyeasyga
-
+.. image:: https://coveralls.io/repos/remiomosowon/pyeasyga/badge.png?branch=develop
+    :target: https://coveralls.io/r/remiomosowon/pyeasyga?branch=develop
+    
 .. image:: https://pypip.in/d/pyeasyga/badge.png
-        :target: https://pypi.python.org/pypi/pyeasyga
+    :target: https://pypi.python.org/pypi/pyeasyga
 
 -------------------------------------------------------------------
 
