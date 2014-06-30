@@ -39,34 +39,17 @@ class TestPyeasyga(unittest.TestCase):
         self.ga = pyeasyga.GeneticAlgorithm(self.seed_data)
         self.ga.population_size = 10
         self.ga.generations = 10
-        self.ga.create_individual = lambda data: [
-            random.randint(0, 1) for _ in xrange(len(data))]
+
         self.ga.fitness_function = lambda member, data: sum(
             [profit for (selected, (fruit, profit)) in
              zip(member, data) if selected and
-             len(filter(lambda x: x == 1, member)) == 3])
-
-        def crossover(parent_1, parent_2):
-            index = random.randrange(1, len(parent_1))
-            child_1 = parent_1[:index] + parent_2[index:]
-            child_2 = parent_2[:index] + parent_1[index:]
-            return child_1, child_2
-        self.ga.crossover_function = crossover
+             len([x for x in member if x == 1]) == 3])
 
         def mutate(individual):
             mutate_index = random.randrange(len(individual))
             individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
-        self.ga.mutate_function = mutate
 
-        def tournament_selection(population):
-            size = int(len(population) / 10.0)
-            if (size == 0):
-                return random.choice(population)
-            members = random.sample(population, size)
-            max_fit = self.ga.maximise_fitness
-            members.sort(key=lambda x: x.fitness, reverse=max_fit)
-            return members[0]
-        self.ga.selection_function = tournament_selection
+        self.ga.selection_function = self.ga.tournament_selection
 
     def test_genetic_algorithm_initialisation_1(self):
         ''' Test default initialisation '''
@@ -115,10 +98,10 @@ class TestPyeasyga(unittest.TestCase):
         func = self.ga.fitness_function
         data = self.ga.seed_data
 
-        assert func(self.population[0], data) == 23
-        assert func(self.population[1], data) == 33
-        assert func(self.population[2], data) == 0
-        assert func(self.population[3], data) == 0
+        assert func([0, 1, 0, 1, 1], data) == 23
+        assert func([1, 1, 0, 0, 1], data) == 33
+        assert func([1, 1, 1, 1, 0], data) == 0
+        assert func([0, 1, 1, 1, 1], data) == 0
 
     def test_crossover_function(self):
         parent_1 = [1, 1, 1, 1, 1]
@@ -141,15 +124,58 @@ class TestPyeasyga(unittest.TestCase):
 
     def test_selection_function_1(self):
         ''' Test tournament selection '''
-        individual = self.ga.selection_function(self.population)
+        population = []
 
-        assert len(individual) == 5
-        assert individual in self.population
+        member_1 = pyeasyga.Chromosome([0, 1, 0, 1, 1])
+        member_2 = pyeasyga.Chromosome([1, 1, 0, 0, 1])
+        member_3 = pyeasyga.Chromosome([1, 1, 1, 1, 0])
+        member_4 = pyeasyga.Chromosome([0, 1, 1, 1, 1])
+
+        population.append(member_1)
+        population.append(member_2)
+        population.append(member_3)
+        population.append(member_4)
+
+        self.ga.calculate_population_fitness(
+            self.ga.seed_data, population, self.ga.fitness_function)
+        self.ga.tournament_size = 4
+        self.ga.selection_function = self.ga.tournament_selection
+
+        individual = self.ga.selection_function(population)
+
+        assert individual.genes == [1, 1, 0, 0, 1]
+        assert individual.fitness == 33
+        assert len(individual.genes) == 5
+        assert individual in population
 
     def test_selection_function_2(self):
+        ''' Test tournament selection '''
+        population = []
+
+        member_1 = pyeasyga.Chromosome([0, 1, 0, 1, 1])
+        member_2 = pyeasyga.Chromosome([1, 1, 0, 0, 1])
+        member_3 = pyeasyga.Chromosome([1, 1, 1, 1, 0])
+        member_4 = pyeasyga.Chromosome([0, 1, 1, 1, 1])
+
+        population.append(member_1)
+        population.append(member_2)
+        population.append(member_3)
+        population.append(member_4)
+
+        self.ga.calculate_population_fitness(
+            self.ga.seed_data, population, self.ga.fitness_function)
+        self.ga.tournament_size = 0
+        self.ga.selection_function = self.ga.tournament_selection
+
+        individual = self.ga.selection_function(population)
+
+        assert len(individual.genes) == 5
+        assert individual in population
+
+    def test_selection_function_3(self):
         ''' Test random selection '''
-        random_selection = lambda population: random.choice(population)
-        individual = random_selection(self.population)
+        self.ga.selection_function = self.ga.random_selection 
+        individual = self.ga.selection_function(self.population)
 
         assert len(individual) == 5
         assert individual in self.population
@@ -245,7 +271,6 @@ class TestPyeasyga(unittest.TestCase):
 
         assert len(population) == pop_size
         assert isinstance(population[0], type(pyeasyga.Chromosome([1])))
-        ''' see if can add better test '''
 
     def test_create_next_generation(self):
         data = self.ga.seed_data
@@ -269,7 +294,6 @@ class TestPyeasyga(unittest.TestCase):
 
         assert len(next_gen) == pop_size
         assert isinstance(population[0], type(pyeasyga.Chromosome([1])))
-        ''' see if can add better test '''
 
     def test_run(self):
         self.ga.run()
@@ -281,30 +305,27 @@ class TestPyeasyga(unittest.TestCase):
         assert isinstance(last_generation.next(), type((1, [1, 1, 1, 1, 1])))
         assert len(last_generation.next()) == 2
         assert len(last_generation.next()[1]) == 5
-        ''' see if can add better test '''
 
     def test_best_individual(self):
         data = self.seed_data
-
         pop_size = self.ga.population_size
         create_func = self.ga.create_individual
         fitness_func = self.ga.fitness_function
+        max_fitness = self.ga.maximise_fitness
 
-        population = self.ga.create_initial_population(
-            data, pop_size, create_func)
-        self.ga.calculate_population_fitness(data, population, fitness_func)
-        self.ga.rank_population(population, True)
+        self.ga.current_generation = self.ga.create_first_generation(
+            data, pop_size, create_func, fitness_func, max_fitness)
 
-        best_fitness, best_genes = self.ga.best_individual(population)
+        best_fitness, best_genes = self.ga.best_individual()
 
-        assert best_fitness == population[0].fitness
-        assert best_genes == population[0].genes
+        assert best_fitness == self.ga.current_generation[0].fitness
+        assert best_genes == self.ga.current_generation[0].genes
 
     def test_last_generation(self):
+        data = self.ga.seed_data
         pop_size = self.ga.population_size
         create_func = self.ga.create_individual
         fitness_func = self.ga.fitness_function
-        data = self.ga.seed_data
         max_fitness = self.ga.maximise_fitness
 
         self.ga.current_generation = self.ga.create_first_generation(
@@ -314,7 +335,6 @@ class TestPyeasyga(unittest.TestCase):
         assert isinstance(last_generation.next(), type((1, [1, 1, 1, 1, 1])))
         assert len(last_generation.next()) == 2
         assert len(last_generation.next()[1]) == 5
-        ''' see if can add better test '''
 
     def tearDown(self):
         pass
