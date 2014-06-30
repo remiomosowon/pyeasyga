@@ -21,8 +21,6 @@ class GeneticAlgorithm(object):
         self.elitism = True
         self.maximise_fitness = True
 
-        ''' Setup default genetic operators that work on a bit array solution
-            representation. '''
         def create_individual(seed_data):
             return [random.randint(0, 1) for _ in xrange(len(seed_data))]
 
@@ -39,11 +37,22 @@ class GeneticAlgorithm(object):
         def random_selection(population):
             return random.choice(population)
 
-        self.create_individual = create_individual
+        def tournament_selection(population):
+            if self.tournament_size == 0:
+                return random.choice(population)
+            members = random.sample(population, self.tournament_size)
+            members.sort(
+                key=attrgetter('fitness'), reverse=self.maximise_fitness)
+            return members[0]
+
         self.fitness_function = None
+        self.tournament_selection = tournament_selection
+        self.tournament_size = self.population_size / 10
+        self.random_selection = random_selection
+        self.create_individual = create_individual
         self.crossover_function = crossover
         self.mutate_function = mutate
-        self.selection_function = random_selection
+        self.selection_function = self.random_selection
 
     def create_initial_population(
             self, seed_data, population_size, create_individual):
@@ -139,8 +148,8 @@ class GeneticAlgorithm(object):
                 max_fitness)
             self.current_generation = next_generation
 
-    def best_individual(self, population):
-        best = population[0]
+    def best_individual(self):
+        best = self.current_generation[0]
         return (best.fitness, best.genes)
 
     def last_generation(self):
