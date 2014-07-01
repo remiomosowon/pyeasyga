@@ -270,7 +270,7 @@ texinfo_documents = [
      u'pyeasyga Documentation',
      u'Ayodeji Remi-Omosowon',
      'pyeasyga',
-     'A simple and easy-to-use Genetic Algorithm implementation in Python.',
+     'A simple and easy-to-use Genetic Algorithm implementation library in Python.',
      'Optimisation algorithms'),
 ]
 

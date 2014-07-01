@@ -1,16 +1,52 @@
 # -*- coding: utf-8 -*-
+"""
+    pyeasyga module
+
+"""
+
 import random
 import copy
 from operator import attrgetter
 
 
 class GeneticAlgorithm(object):
+    """ Genetic Algorithm class.
+
+    This is the main class that controls the functionality of the Genetic
+    Algorithm.
+
+    >>> # Select only two items from the list and maximise profit
+    >>> from pyeasyga.pyeasyga import GeneticAlgorithm
+    >>> input_data = [('pear', 50), ('apple', 35), ('banana', 40)]
+    >>> easyga = GeneticAlgorithm(input_data)
+    >>> def fitness (member, data):
+    >>>     return sum([profit for (selected, (fruit, profit)) in
+    >>>                 zip(member, data) if selected and
+    >>>                 member.count(1) == 2])
+    >>> easyga.fitness_function = fitness
+    >>> easyga.run()
+    >>> print easyga.best_individual()
+
+    """
+
     def __init__(self,
                  seed_data,
                  population_size=100,
                  generations=300,
                  crossover_probability=0.8,
                  mutation_probability=0.2):
+        """ Instantiate the Genetic Algorithm.
+
+        :param seed_data: input data to the Genetic Algorithm
+        :type seed_data: list of objects
+        :param int population_size: size of population
+        :param int generations: number of generations to evolve
+        :param float crossover_probability: probability of crossover operation
+        :param float mutation_probability: probability of mutation operation
+        :returns: None
+
+        """
+
         self.seed_data = seed_data
         self.population_size = population_size
         self.generations = generations
@@ -22,9 +58,27 @@ class GeneticAlgorithm(object):
         self.maximise_fitness = True
 
         def create_individual(seed_data):
+            """ Create a candidate solution representation.
+
+            e.g. for a bit array representation:
+
+            >>> return [random.randint(0, 1) for _ in xrange(len(data))]
+
+            :param seed_data: input data to the Genetic Algorithm
+            :type seed_data: list of objects
+            :returns: candidate solution representation as a list
+
+            """
             return [random.randint(0, 1) for _ in xrange(len(seed_data))]
 
         def crossover(parent_1, parent_2):
+            """ Crossover (mate) two parents to produce two children
+
+            :param parent_1: candidate solution representation (list)
+            :param parent_2: candidate solution representation (list)
+            :returns: tuple containing two children
+
+            """
             index = random.randrange(1, len(parent_1))
             child_1 = parent_1[:index] + parent_2[index:]
             child_2 = parent_2[:index] + parent_1[index:]
