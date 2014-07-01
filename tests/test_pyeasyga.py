@@ -43,7 +43,7 @@ class TestPyeasyga(unittest.TestCase):
         self.ga.fitness_function = lambda member, data: sum(
             [profit for (selected, (fruit, profit)) in
              zip(member, data) if selected and
-             len([x for x in member if x == 1]) == 3])
+             member.count(1) == 3])
 
         def mutate(individual):
             mutate_index = random.randrange(len(individual))
@@ -174,7 +174,7 @@ class TestPyeasyga(unittest.TestCase):
 
     def test_selection_function_3(self):
         ''' Test random selection '''
-        self.ga.selection_function = self.ga.random_selection 
+        self.ga.selection_function = self.ga.random_selection
         individual = self.ga.selection_function(self.population)
 
         assert len(individual) == 5
