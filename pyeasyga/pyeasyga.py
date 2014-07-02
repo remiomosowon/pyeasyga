@@ -110,6 +110,16 @@ class GeneticAlgorithm(object):
 
     def create_initial_population(
             self, seed_data, population_size, create_individual):
+        """ Create members of the first population randomly.
+
+        :param seed_data: input data to the Genetic Algorithm
+        :type seed_data: list of objects
+        :param int population_size: size of population
+        :param create_individual: function that creates candidate solutions
+        :type create_individual: :func:
+        :returns: initial population as a list of candidate solutions
+
+        """
         initial_population = []
         for _ in xrange(population_size):
             genes = create_individual(seed_data)
@@ -195,7 +205,7 @@ class GeneticAlgorithm(object):
         self.current_generation = self.create_first_generation(
             data, pop_size, create_func, fitness_func, max_fitness)
 
-        for generation in xrange(1, generations):
+        for _ in xrange(1, generations):
             next_generation = self.create_next_generation(
                 data, self.current_generation, fitness_func, selection,
                 crossover, prob_crossover, mutate, prob_mutate, elitism,

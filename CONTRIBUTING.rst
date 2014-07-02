@@ -36,8 +36,8 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-Easy Genetic Algorithm could always use more documentation, whether as part of the 
-official Easy Genetic Algorithm docs, in docstrings, or even on the web in blog posts,
+pyeasyga could always use more documentation, whether as part of the official 
+pyeasyga docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
@@ -99,7 +99,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, and 3.3, 3.4, and for PyPy. Check
+3. The pull request should work for Python 2.6 and 2.7. Check
    https://travis-ci.org/remiomosowon/pyeasyga/pull_requests
    and make sure that the tests pass for all supported Python versions.
 
