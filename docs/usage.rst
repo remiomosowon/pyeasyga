@@ -4,4 +4,4 @@ Usage
 
 To use pyeasyga in a project::
 
-	import pyeasyga
+	from pyeasyga import pyeasyga

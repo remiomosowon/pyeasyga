@@ -28,7 +28,7 @@ clean-tox:
 	rm -fr *.egg
 
 lint:
-	flake8 pyeasyga tests
+	flake8 pyeasyga tests examples
 
 test:
 	python setup.py test
