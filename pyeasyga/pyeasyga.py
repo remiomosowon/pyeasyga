@@ -106,7 +106,7 @@ class GeneticAlgorithm(object):
         self.create_individual = create_individual
         self.crossover_function = crossover
         self.mutate_function = mutate
-        self.selection_function = self.random_selection
+        self.selection_function = self.tournament_selection
 
     def create_initial_population(
             self, seed_data, population_size, create_individual):
@@ -159,7 +159,8 @@ class GeneticAlgorithm(object):
                 mutate(child_2.genes)
 
             new_population.append(child_1)
-            new_population.append(child_2)
+            if len(new_population) < len(population):
+                new_population.append(child_2)
 
         if elitism:
             new_population[0] = best
