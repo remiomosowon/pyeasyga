@@ -24,7 +24,6 @@ A simple and easy-to-use Genetic Algorithm implementation library in Python.
 * Free software: BSD license
 * Documentation: http://pyeasyga.readthedocs.org.
 
-.. include:: ../examples/README.rst
 
 Note
 --------
