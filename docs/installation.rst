@@ -2,9 +2,9 @@
 Installation
 ============
 
-At the command line::
+At the command line, simply run: ::
 
-    $ easy_install pyeasyga
+    $ pip install pyeasyga
 
 Or, if you have virtualenvwrapper installed::
 
