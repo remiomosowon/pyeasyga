@@ -13,4 +13,4 @@ Other solution representations will require setting some more attributes.
 
 __author__ = 'Ayodeji Remi-Omosowon'
 __email__ = 'remiomosowon@gmail.com'
-__version__ = '0.2.1'
+__version__ = '0.2.2'
