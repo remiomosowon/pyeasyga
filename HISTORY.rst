@@ -3,7 +3,7 @@
 History
 -------
 
-2014-07-04 (v0.2.2)
+2014-07-05 (v0.2.2)
 ~~~~~~~~~~~~~~~~~~~
 
 * Removed duplicate ‘Example’ documentation; now maintaining only one copy in 
