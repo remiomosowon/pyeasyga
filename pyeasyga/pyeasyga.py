@@ -257,17 +257,6 @@ class GeneticAlgorithm(object):
         return ((member.fitness, member.genes) for member
                 in self.current_generation)
 
-    def __repr__(self):
-        """Return initialised GA representation in human readable form."""
-        return repr(
-            ('Genetic Algorithm',
-             ('population size', self.population_size),
-             ('generations', self.generations),
-             ('crossover probability', self.crossover_probability),
-             ('muation probability', self.mutation_probability),
-             ('elitism', self.elitism),
-             ('maximise fitness', self.maximise_fitness)))
-
 
 class Chromosome(object):
     """ Chromosome class that encapsulates an individual's fitness and solution
