@@ -13,10 +13,12 @@ History
 ~~~~~~~~~~~~~~~~~~~
 
 * Implemented all of basic GA functionality
-* Fix issue with odd-numbered population that causes an off-by-one error in the population size
+* Fix issue with odd-numbered population that causes an off-by-one error in the 
+  population size
 * Set default ga selection function to tournament_selection
 * Created examples to show how to use the library
-* Start versioning (better late than never); copied jeffknupp’s update_version.sh from sandman
+* Start versioning (better late than never); copied jeffknupp’s 
+  update_version.sh from `sandman <https://github.com/jeffknupp/sandman/>`_
  
   **selected versioning standard:**  major.minor.micro (e.g. 2.1.5)
   

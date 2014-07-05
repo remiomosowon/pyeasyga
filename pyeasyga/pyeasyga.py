@@ -10,10 +10,12 @@ from operator import attrgetter
 
 
 class GeneticAlgorithm(object):
-    """ Genetic Algorithm class.
+    """Genetic Algorithm class.
 
     This is the main class that controls the functionality of the Genetic
     Algorithm.
+
+    A simple example of usage:
 
     >>> # Select only two items from the list and maximise profit
     >>> from pyeasyga.pyeasyga import GeneticAlgorithm
@@ -31,11 +33,11 @@ class GeneticAlgorithm(object):
 
     def __init__(self,
                  seed_data,
-                 population_size=100,
-                 generations=300,
+                 population_size=50,
+                 generations=100,
                  crossover_probability=0.8,
                  mutation_probability=0.2):
-        """ Instantiate the Genetic Algorithm.
+        """Instantiate the Genetic Algorithm.
 
         :param seed_data: input data to the Genetic Algorithm
         :type seed_data: list of objects
@@ -43,7 +45,6 @@ class GeneticAlgorithm(object):
         :param int generations: number of generations to evolve
         :param float crossover_probability: probability of crossover operation
         :param float mutation_probability: probability of mutation operation
-        :returns: None
 
         """
 
@@ -58,7 +59,7 @@ class GeneticAlgorithm(object):
         self.maximise_fitness = True
 
         def create_individual(seed_data):
-            """ Create a candidate solution representation.
+            """Create a candidate solution representation.
 
             e.g. for a bit array representation:
 
@@ -72,7 +73,7 @@ class GeneticAlgorithm(object):
             return [random.randint(0, 1) for _ in xrange(len(seed_data))]
 
         def crossover(parent_1, parent_2):
-            """ Crossover (mate) two parents to produce two children
+            """Crossover (mate) two parents to produce two children.
 
             :param parent_1: candidate solution representation (list)
             :param parent_2: candidate solution representation (list)
@@ -85,15 +86,21 @@ class GeneticAlgorithm(object):
             return child_1, child_2
 
         def mutate(individual):
+            """Reverse the bit of a random index in an individual."""
             mutate_index = random.randrange(len(individual))
             individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
 
         def random_selection(population):
+            """Select and return a random member of the population."""
             return random.choice(population)
 
         def tournament_selection(population):
+            """Select a random number of individuals from the population and
+            return the fittest member of them all.
+
+            """
             if self.tournament_size == 0:
-                return random.choice(population)
+                self.tournament_size = 2
             members = random.sample(population, self.tournament_size)
             members.sort(
                 key=attrgetter('fitness'), reverse=self.maximise_fitness)
@@ -110,7 +117,7 @@ class GeneticAlgorithm(object):
 
     def create_initial_population(
             self, seed_data, population_size, create_individual):
-        """ Create members of the first population randomly.
+        """Create members of the first population randomly.
 
         :param seed_data: input data to the Genetic Algorithm
         :type seed_data: list of objects
@@ -128,15 +135,27 @@ class GeneticAlgorithm(object):
         return initial_population
 
     def calculate_population_fitness(self, data, population, fitness_function):
+        """Calculate the fitness of every member of the given population using
+        the supplied fitness_function.
+
+        """
         for individual in population:
             individual.fitness = fitness_function(individual.genes, data)
 
     def rank_population(self, population, maximise_fitness=True):
+        """Sort the population by fitness according to the order defined by
+        maximise_fitness.
+
+        """
         population.sort(key=attrgetter('fitness'), reverse=maximise_fitness)
 
     def create_new_population(
             self, population, crossover, prob_crossover, mutate, prob_mutate,
             selection, elitism):
+        """Create a new population using the genetic operators (selection,
+        crossover, and mutation) supplied.
+
+        """
         new_population = []
         best = copy.deepcopy(population[0])
 
@@ -170,6 +189,10 @@ class GeneticAlgorithm(object):
     def create_first_generation(
             self, data, population_size, create_individual, fitness_function,
             maximise_fitness=True):
+        """Create the first population, calculate the population's fitness and
+        rank the population by fitness according to the order specified.
+
+        """
         initial_population = self.create_initial_population(
             data, population_size, create_individual)
         self.calculate_population_fitness(
@@ -181,6 +204,10 @@ class GeneticAlgorithm(object):
             self, data, population, fitness_function,
             selection_function, crossover_function, prob_crossover,
             mutate_function, prob_mutate, elitism, maximise_fitness=True):
+        """Create subsequent populations, calculate the population fitness and
+        rank the population by fitness in the order specified.
+
+        """
         new_population = self.create_new_population(
             population, crossover_function, prob_crossover, mutate_function,
             prob_mutate, selection_function, elitism)
@@ -190,6 +217,7 @@ class GeneticAlgorithm(object):
         return new_population
 
     def run(self):
+        """Run (solve) the Genetic Algorithm."""
         data = self.seed_data
         pop_size = self.population_size
         generations = self.generations
@@ -214,18 +242,45 @@ class GeneticAlgorithm(object):
             self.current_generation = next_generation
 
     def best_individual(self):
+        """Return the individual with the best fitness in the current
+        generation.
+
+        """
         best = self.current_generation[0]
         return (best.fitness, best.genes)
 
     def last_generation(self):
+        """Return the members of the last generation in an iterable form (i.e
+        a generator.
+
+        """
         return ((member.fitness, member.genes) for member
                 in self.current_generation)
 
+    def __repr__(self):
+        """Return initialised GA representation in human readable form."""
+        return repr(
+            ('Genetic Algorithm',
+             ('population size', self.population_size),
+             ('generations', self.generations),
+             ('crossover probability', self.crossover_probability),
+             ('muation probability', self.mutation_probability),
+             ('elitism', self.elitism),
+             ('maximise fitness', self.maximise_fitness)))
+
 
 class Chromosome(object):
+    """ Chromosome class that encapsulates an individual's fitness and solution
+    representation.
+
+    """
     def __init__(self, genes):
+        """Initialise the Chromosome."""
         self.genes = genes
         self.fitness = 0
 
     def __repr__(self):
+        """Return initialised Chromosome representation in human readable form.
+
+        """
         return repr((self.fitness, self.genes))
