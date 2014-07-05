@@ -55,11 +55,18 @@ class TestPyeasyga(unittest.TestCase):
         ''' Test default initialisation '''
         ga_1 = pyeasyga.GeneticAlgorithm(self.seed_data)
 
-        assert ga_1.population_size == 100
-        assert ga_1.generations == 300
+        assert ga_1.population_size == 50
+        assert ga_1.generations == 100
         assert ga_1.elitism is True
         assert ga_1.crossover_probability == 0.8
         assert ga_1.mutation_probability == 0.2
+        assert "Genetic Algorithm" in str(ga_1)
+        assert "('population size', 50)" in str(ga_1)
+        assert "('generations', 100)" in str(ga_1)
+        assert "('crossover probability', 0.8)" in str(ga_1)
+        assert "('muation probability', 0.2)" in str(ga_1)
+        assert "('elitism', True)" in str(ga_1)
+        assert "('maximise fitness', True)" in str(ga_1)
 
     def test_genetic_algorithm_initialisation_2(self):
         ''' Test initialisation with specific values '''

@@ -52,6 +52,7 @@ docs:
 
 release: clean
 	python setup.py sdist upload
+	python setup.py upload_docs
 	python setup.py bdist_wheel upload
 
 dist: clean
