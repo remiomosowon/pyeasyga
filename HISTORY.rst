@@ -3,6 +3,22 @@
 History
 -------
 
+2014-07-05 (v0.2.2)
+~~~~~~~~~~~~~~~~~~~
+
+* Removed duplicate ‘Example’ documentation; now maintaining only one copy in 
+  examples/README.rst
+* Added link to jeffknupp’s sandman repo in HISTORY
+* Modified make release to also upload project documentation
+* Added Installation, and Example info to README.rst
+* Removed easy_install installation step from docs/installation.rst (pip is 
+  sufficient)
+* Added a simple example of usage to docs/usage.rst
+* Reduced the default GA population and generation size (to allow applications 
+  that use the different parameters to run quickly)
+* Modified tests to account for the new default population, generation size
+* Added docstrings to all methods
+
 2014-07-04 (v0.2.0)
 ~~~~~~~~~~~~~~~~~~~
 
