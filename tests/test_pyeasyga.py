@@ -9,7 +9,6 @@ Tests for `pyeasyga` module.
 """
 
 import unittest
-import random
 import copy
 from operator import attrgetter
 
@@ -44,10 +43,6 @@ class TestPyeasyga(unittest.TestCase):
             [profit for (selected, (fruit, profit)) in
              zip(member, data) if selected and
              member.count(1) == 3])
-
-        def mutate(individual):
-            mutate_index = random.randrange(len(individual))
-            individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
 
         self.ga.selection_function = self.ga.tournament_selection
 
