@@ -136,12 +136,12 @@ class TestPyeasyga(unittest.TestCase):
         population.append(member_3)
         population.append(member_4)
 
-        self.ga.calculate_population_fitness(
-            self.ga.seed_data, population, self.ga.fitness_function)
+        self.ga.current_generation = population
+        self.ga.calculate_population_fitness()
         self.ga.tournament_size = 4
         self.ga.selection_function = self.ga.tournament_selection
 
-        individual = self.ga.selection_function(population)
+        individual = self.ga.selection_function(self.ga.current_generation)
 
         assert individual.genes == [1, 1, 0, 0, 1]
         assert individual.fitness == 33
@@ -162,8 +162,7 @@ class TestPyeasyga(unittest.TestCase):
         population.append(member_3)
         population.append(member_4)
 
-        self.ga.calculate_population_fitness(
-            self.ga.seed_data, population, self.ga.fitness_function)
+        self.ga.calculate_population_fitness()
         self.ga.tournament_size = 0
         self.ga.selection_function = self.ga.tournament_selection
 
@@ -189,11 +188,10 @@ class TestPyeasyga(unittest.TestCase):
 
     def test_create_initial_population(self):
         pop_size = self.ga.population_size
-        func = self.ga.create_individual
-        data = self.ga.seed_data
 
-        initial_population = self.ga.create_initial_population(
-            data, pop_size, func)
+        self.ga.create_initial_population()
+
+        initial_population = self.ga.current_generation
 
         assert len(initial_population) == pop_size
         assert isinstance(initial_population[0],
@@ -201,99 +199,53 @@ class TestPyeasyga(unittest.TestCase):
         assert sum([member.fitness for member in initial_population]) == 0
 
     def test_calculate_population_fitness(self):
-        data = self.ga.seed_data
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
+        self.ga.create_initial_population()
+        self.ga.calculate_population_fitness()
 
-        population = self.ga.create_initial_population(
-            data, pop_size, create_func)
-
-        fitness_func = self.ga.fitness_function
-        self.ga.calculate_population_fitness(data, population, fitness_func)
-
-        assert sum([member.fitness for member in population]) > 0
+        assert sum(
+            [member.fitness for member in self.ga.current_generation]) > 0
 
     def test_rank_population(self):
-        data = self.seed_data
+        self.ga.create_initial_population()
+        self.ga.calculate_population_fitness()
 
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-
-        population = self.ga.create_initial_population(
-            data, pop_size, create_func)
-        self.ga.calculate_population_fitness(data, population, fitness_func)
-
-        new_population = copy.deepcopy(population)
+        new_population = copy.deepcopy(self.ga.current_generation)
         new_population.sort(key=attrgetter('fitness'), reverse=True)
 
-        self.ga.rank_population(population, True)
+        self.ga.rank_population()
 
-        assert population[0].fitness == new_population[0].fitness
-        assert population[1].fitness == new_population[1].fitness
+        current_gen = self.ga.current_generation
+
+        assert current_gen[0].fitness == new_population[0].fitness
+        assert current_gen[1].fitness == new_population[1].fitness
 
     def test_create_new_population(self):
-        data = self.seed_data
+        """ Write more functional test """
+        self.ga.create_initial_population()
+        self.ga.calculate_population_fitness()
+        self.ga.rank_population()
+        self.ga.create_new_population()
 
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-
-        population = self.ga.create_initial_population(
-            data, pop_size, create_func)
-        self.ga.calculate_population_fitness(data, population, fitness_func)
-        self.ga.rank_population(population, True)
-
-        crossover = self.ga.crossover_function
-        prob_crossover = self.ga.crossover_probability
-        mutate = self.ga.mutate_function
-        prob_mutate = self.ga.mutation_probability
-        selection = self.ga.selection_function
-        elitism = True
-
-        new_population = self.ga.create_new_population(
-            population, crossover, prob_crossover, mutate, prob_mutate,
-            selection, elitism)
-
-        assert len(new_population) == self.ga.population_size
-        assert new_population[0].fitness == population[0].fitness
-        assert new_population[0].genes == population[0].genes
+        assert len(self.ga.current_generation) == self.ga.population_size
 
     def test_create_first_generation(self):
-        data = self.ga.seed_data
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-        max_fitness = self.ga.maximise_fitness
+        """ Write more functional test """
+        self.ga.create_first_generation()
 
-        population = self.ga.create_first_generation(
-            data, pop_size, create_func, fitness_func, max_fitness)
-
-        assert len(population) == pop_size
-        assert isinstance(population[0], type(pyeasyga.Chromosome([1])))
+        assert len(self.ga.current_generation) == self.ga.population_size
+        assert isinstance(
+            self.ga.current_generation[0], type(pyeasyga.Chromosome([1])))
 
     def test_create_next_generation(self):
-        data = self.ga.seed_data
         pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-        selection = self.ga.selection_function
-        crossover = self.ga.crossover_function
-        prob_crossover = self.ga.crossover_probability
-        mutate = self.ga.mutate_function
-        prob_mutate = self.ga.mutation_probability
-        elitism = self.ga.elitism
-        max_fitness = self.ga.maximise_fitness
 
-        population = self.ga.create_first_generation(
-            data, pop_size, create_func, fitness_func, max_fitness)
+        self.ga.create_first_generation()
+        self.ga.create_next_generation()
 
-        next_gen = self.ga.create_next_generation(
-            data, population, fitness_func, selection, crossover,
-            prob_crossover, mutate, prob_mutate, elitism, max_fitness)
+        current_gen = self.ga.current_generation
 
-        assert len(next_gen) == pop_size
-        assert isinstance(population[0], type(pyeasyga.Chromosome([1])))
+        assert len(current_gen) == pop_size
+        assert isinstance(current_gen[0], type(pyeasyga.Chromosome([1])))
 
     def test_run(self):
         self.ga.run()
@@ -307,29 +259,14 @@ class TestPyeasyga(unittest.TestCase):
         assert len(last_generation.next()[1]) == 5
 
     def test_best_individual(self):
-        data = self.seed_data
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-        max_fitness = self.ga.maximise_fitness
-
-        self.ga.current_generation = self.ga.create_first_generation(
-            data, pop_size, create_func, fitness_func, max_fitness)
-
+        self.ga.create_first_generation()
         best_fitness, best_genes = self.ga.best_individual()
 
         assert best_fitness == self.ga.current_generation[0].fitness
         assert best_genes == self.ga.current_generation[0].genes
 
     def test_last_generation(self):
-        data = self.ga.seed_data
-        pop_size = self.ga.population_size
-        create_func = self.ga.create_individual
-        fitness_func = self.ga.fitness_function
-        max_fitness = self.ga.maximise_fitness
-
-        self.ga.current_generation = self.ga.create_first_generation(
-            data, pop_size, create_func, fitness_func, max_fitness)
+        self.ga.create_first_generation()
         last_generation = self.ga.last_generation()
 
         assert isinstance(last_generation.next(), type((1, [1, 1, 1, 1, 1])))
