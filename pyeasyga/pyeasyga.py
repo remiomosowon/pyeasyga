@@ -97,7 +97,6 @@ class GeneticAlgorithm(object):
         def tournament_selection(population):
             """Select a random number of individuals from the population and
             return the fittest member of them all.
-
             """
             if self.tournament_size == 0:
                 self.tournament_size = 2
@@ -115,136 +114,93 @@ class GeneticAlgorithm(object):
         self.mutate_function = mutate
         self.selection_function = self.tournament_selection
 
-    def create_initial_population(
-            self, seed_data, population_size, create_individual):
+    def create_initial_population(self):
         """Create members of the first population randomly.
-
-        :param seed_data: input data to the Genetic Algorithm
-        :type seed_data: list of objects
-        :param int population_size: size of population
-        :param create_individual: function that creates candidate solutions
-        :type create_individual: :func:
-        :returns: initial population as a list of candidate solutions
-
         """
         initial_population = []
-        for _ in xrange(population_size):
-            genes = create_individual(seed_data)
+        for _ in xrange(self.population_size):
+            genes = self.create_individual(self.seed_data)
             individual = Chromosome(genes)
             initial_population.append(individual)
-        return initial_population
+        self.current_generation = initial_population
 
-    def calculate_population_fitness(self, data, population, fitness_function):
+    def calculate_population_fitness(self):
         """Calculate the fitness of every member of the given population using
         the supplied fitness_function.
-
         """
-        for individual in population:
-            individual.fitness = fitness_function(individual.genes, data)
+        for individual in self.current_generation:
+            individual.fitness = self.fitness_function(
+                individual.genes, self.seed_data)
 
-    def rank_population(self, population, maximise_fitness=True):
+    def rank_population(self):
         """Sort the population by fitness according to the order defined by
         maximise_fitness.
-
         """
-        population.sort(key=attrgetter('fitness'), reverse=maximise_fitness)
+        self.current_generation.sort(
+            key=attrgetter('fitness'), reverse=self.maximise_fitness)
 
-    def create_new_population(
-            self, population, crossover, prob_crossover, mutate, prob_mutate,
-            selection, elitism):
+    def create_new_population(self):
         """Create a new population using the genetic operators (selection,
         crossover, and mutation) supplied.
-
         """
         new_population = []
-        best = copy.deepcopy(population[0])
+        best = copy.deepcopy(self.current_generation[0])
 
-        while len(new_population) < len(population):
-            parent_1 = copy.deepcopy(selection(population))
-            parent_2 = copy.deepcopy(selection(population))
+        while len(new_population) < self.population_size:
+            parent_1 = copy.deepcopy(
+                self.selection_function(self.current_generation))
+            parent_2 = copy.deepcopy(
+                self.selection_function(self.current_generation))
 
-            can_crossover = random.random() < prob_crossover
-            can_mutate = random.random() < prob_mutate
+            can_crossover = random.random() < self.crossover_probability
+            can_mutate = random.random() < self.mutation_probability
 
             child_1, child_2 = parent_1, parent_2
             child_1.fitness, child_2.fitness = 0, 0
 
             if can_crossover:
-                child_1.genes, child_2.genes = crossover(parent_1.genes,
-                                                         parent_2.genes)
+                child_1.genes, child_2.genes = self.crossover_function(
+                    parent_1.genes, parent_2.genes)
 
             if can_mutate:
-                mutate(child_1.genes)
-                mutate(child_2.genes)
+                self.mutate_function(child_1.genes)
+                self.mutate_function(child_2.genes)
 
             new_population.append(child_1)
-            if len(new_population) < len(population):
+            if len(new_population) < self.population_size:
                 new_population.append(child_2)
 
-        if elitism:
+        if self.elitism:
             new_population[0] = best
 
-        return new_population
+        self.current_generation = new_population
 
-    def create_first_generation(
-            self, data, population_size, create_individual, fitness_function,
-            maximise_fitness=True):
+    def create_first_generation(self):
         """Create the first population, calculate the population's fitness and
         rank the population by fitness according to the order specified.
-
         """
-        initial_population = self.create_initial_population(
-            data, population_size, create_individual)
-        self.calculate_population_fitness(
-            data, initial_population, fitness_function)
-        self.rank_population(initial_population, maximise_fitness)
-        return initial_population
+        self.create_initial_population()
+        self.calculate_population_fitness()
+        self.rank_population()
 
-    def create_next_generation(
-            self, data, population, fitness_function,
-            selection_function, crossover_function, prob_crossover,
-            mutate_function, prob_mutate, elitism, maximise_fitness=True):
+    def create_next_generation(self):
         """Create subsequent populations, calculate the population fitness and
         rank the population by fitness in the order specified.
-
         """
-        new_population = self.create_new_population(
-            population, crossover_function, prob_crossover, mutate_function,
-            prob_mutate, selection_function, elitism)
-        self.calculate_population_fitness(
-            data, new_population, fitness_function)
-        self.rank_population(new_population, maximise_fitness)
-        return new_population
+        self.create_new_population()
+        self.calculate_population_fitness()
+        self.rank_population()
 
     def run(self):
         """Run (solve) the Genetic Algorithm."""
-        data = self.seed_data
-        pop_size = self.population_size
-        generations = self.generations
-        create_func = self.create_individual
-        fitness_func = self.fitness_function
-        selection = self.selection_function
-        crossover = self.crossover_function
-        prob_crossover = self.crossover_probability
-        mutate = self.mutate_function
-        prob_mutate = self.mutation_probability
-        elitism = self.elitism
-        max_fitness = self.maximise_fitness
+        self.create_first_generation()
 
-        self.current_generation = self.create_first_generation(
-            data, pop_size, create_func, fitness_func, max_fitness)
-
-        for _ in xrange(1, generations):
-            next_generation = self.create_next_generation(
-                data, self.current_generation, fitness_func, selection,
-                crossover, prob_crossover, mutate, prob_mutate, elitism,
-                max_fitness)
-            self.current_generation = next_generation
+        for _ in xrange(1, self.generations):
+            self.create_next_generation()
 
     def best_individual(self):
         """Return the individual with the best fitness in the current
         generation.
-
         """
         best = self.current_generation[0]
         return (best.fitness, best.genes)
@@ -252,7 +208,6 @@ class GeneticAlgorithm(object):
     def last_generation(self):
         """Return the members of the last generation in an iterable form (i.e
         a generator.
-
         """
         return ((member.fitness, member.genes) for member
                 in self.current_generation)
@@ -261,7 +216,6 @@ class GeneticAlgorithm(object):
 class Chromosome(object):
     """ Chromosome class that encapsulates an individual's fitness and solution
     representation.
-
     """
     def __init__(self, genes):
         """Initialise the Chromosome."""
@@ -270,6 +224,5 @@ class Chromosome(object):
 
     def __repr__(self):
         """Return initialised Chromosome representation in human readable form.
-
         """
         return repr((self.fitness, self.genes))
