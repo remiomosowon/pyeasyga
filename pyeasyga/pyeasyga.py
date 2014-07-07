@@ -144,19 +144,18 @@ class GeneticAlgorithm(object):
         crossover, and mutation) supplied.
         """
         new_population = []
-        best = copy.deepcopy(self.current_generation[0])
+        elite = copy.deepcopy(self.current_generation[0])
+        selection = self.selection_function
 
         while len(new_population) < self.population_size:
-            parent_1 = copy.deepcopy(
-                self.selection_function(self.current_generation))
-            parent_2 = copy.deepcopy(
-                self.selection_function(self.current_generation))
-
-            can_crossover = random.random() < self.crossover_probability
-            can_mutate = random.random() < self.mutation_probability
+            parent_1 = copy.deepcopy(selection(self.current_generation))
+            parent_2 = copy.deepcopy(selection(self.current_generation))
 
             child_1, child_2 = parent_1, parent_2
             child_1.fitness, child_2.fitness = 0, 0
+
+            can_crossover = random.random() < self.crossover_probability
+            can_mutate = random.random() < self.mutation_probability
 
             if can_crossover:
                 child_1.genes, child_2.genes = self.crossover_function(
@@ -171,7 +170,7 @@ class GeneticAlgorithm(object):
                 new_population.append(child_2)
 
         if self.elitism:
-            new_population[0] = best
+            new_population[0] = elite
 
         self.current_generation = new_population
 
@@ -206,9 +205,7 @@ class GeneticAlgorithm(object):
         return (best.fitness, best.genes)
 
     def last_generation(self):
-        """Return the members of the last generation in an iterable form (i.e
-        a generator.
-        """
+        """Return members of the last generation as a generator function."""
         return ((member.fitness, member.genes) for member
                 in self.current_generation)
 
