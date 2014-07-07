@@ -21,21 +21,19 @@ A simple and easy-to-use Genetic Algorithm implementation library in Python.
 Installation
 ~~~~~~~~~~~~
 
-At the command line, simply run: ::
+At the command line, simply run::
 
     $ pip install pyeasyga
 
-Or, if you have virtualenvwrapper installed::
-
-    $ mkvirtualenv pyeasyga
-    $ pip install pyeasyga
+For alternative install methods, see the INSTALL file or the Installation 
+section in the documentation.
 
 
 Examples
 ~~~~~~~~
 
-See *Usage* for examples. The example files can be found in the 
-``examples`` directory.
+See the Usage section in the documentation for examples. The example files can 
+be found in the ``examples`` directory.
 
 
 Note
