@@ -4,8 +4,8 @@ Usage
 
 To use pyeasyga in a project:
 
-Simple Usage
-------------
+Simple
+------
 
     1. Import the module ::
 
@@ -46,8 +46,8 @@ Simple Usage
         print ga.best_individual()
 
 
-Advanced Usage
--------------------
+Advanced
+--------
 
     1. Import the module ::
 
@@ -247,5 +247,3 @@ apple gives the highest possible cost of 90.)* ::
     >>>
     >>> for individual in ga.last_generation():
     >>>     print individual
-
-.. include:: ../examples/README.rst
