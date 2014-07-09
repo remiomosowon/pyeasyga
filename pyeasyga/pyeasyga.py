@@ -36,7 +36,9 @@ class GeneticAlgorithm(object):
                  population_size=50,
                  generations=100,
                  crossover_probability=0.8,
-                 mutation_probability=0.2):
+                 mutation_probability=0.2,
+                 elitism=True,
+                 maximise_fitness=True):
         """Instantiate the Genetic Algorithm.
 
         :param seed_data: input data to the Genetic Algorithm
@@ -53,10 +55,10 @@ class GeneticAlgorithm(object):
         self.generations = generations
         self.crossover_probability = crossover_probability
         self.mutation_probability = mutation_probability
+        self.elitism = elitism
+        self.maximise_fitness = maximise_fitness
 
         self.current_generation = []
-        self.elitism = True
-        self.maximise_fitness = True
 
         def create_individual(seed_data):
             """Create a candidate solution representation.
