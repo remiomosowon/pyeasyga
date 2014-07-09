@@ -3,6 +3,23 @@
 History
 -------
 
+2014-07-09 (v0.2.5)
+~~~~~~~~~~~~~~~~~~~
+
+* Modified usage documentation
+* Added example documentation as separate section
+
+2014-07-07 (v0.2.4)
+~~~~~~~~~~~~~~~~~~~
+
+* Modified installation documentation
+* Refactored majority of code; made classes more OOP
+
+2014-07-05 (v0.2.3)
+~~~~~~~~~~~~~~~~~~~
+
+* Fixed breaking python 2.6 build
+
 2014-07-05 (v0.2.2)
 ~~~~~~~~~~~~~~~~~~~
 
