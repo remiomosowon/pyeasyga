@@ -3,6 +3,7 @@
 
 ## Requirements for Testing, Documentation, and Package Distribution
 Sphinx==1.2.2
+sphinx-rtd-theme==0.1.6
 coverage==3.7.1
 flake8==2.2.0
 tox==1.7.1
