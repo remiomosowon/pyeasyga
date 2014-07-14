@@ -22,6 +22,7 @@ clean-build:
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
+	find . -name '*.py-e' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
 clean-tox:
