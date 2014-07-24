@@ -8,6 +8,11 @@ v0.2.5
 
 **2014-07-09**
 
+* Added an example that solves the `8 Queens Puzzle
+  <http://en.wikipedia.org/wiki/Eight_queens_puzzle>`_
+
+**2014-07-09**
+
 * Modified the GeneticAlgorithm class initialisation parameters
 * Made changes to USAGE documentation
 * Added EXAMPLE documentation as a separate section
