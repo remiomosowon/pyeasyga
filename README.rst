@@ -25,6 +25,12 @@ At the command line, simply run::
 
     $ pip install pyeasyga
 
+Or clone this repository and run ``python setup.py install`` from within the project directory. e.g.::
+
+    $ git clone https://github.com/remiomosowon/pyeasyga.git
+    $ cd pyeasyga
+    $ python setup.py install
+
 For alternative install methods, see the INSTALL file or the Installation 
 section in the documentation.
 
