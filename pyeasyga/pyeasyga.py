@@ -111,7 +111,7 @@ class GeneticAlgorithm(object):
 
         self.fitness_function = None
         self.tournament_selection = tournament_selection
-        self.tournament_size = self.population_size / 10
+        self.tournament_size = self.population_size // 10
         self.random_selection = random_selection
         self.create_individual = create_individual
         self.crossover_function = crossover
