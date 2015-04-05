@@ -12,6 +12,8 @@ import unittest
 import copy
 from operator import attrgetter
 
+from six import next
+
 from pyeasyga import pyeasyga
 
 
@@ -224,9 +226,9 @@ class TestPyeasyga(unittest.TestCase):
 
         assert len(current_gen) == self.ga.population_size
         assert isinstance(current_gen[0], type(pyeasyga.Chromosome([1])))
-        assert isinstance(last_generation.next(), type((1, [1, 1, 1, 1, 1])))
-        assert len(last_generation.next()) == 2
-        assert len(last_generation.next()[1]) == 5
+        assert isinstance(next(last_generation), type((1, [1, 1, 1, 1, 1])))
+        assert len(next(last_generation)) == 2
+        assert len(next(last_generation)[1]) == 5
 
     def test_best_individual(self):
         self.ga.create_first_generation()
@@ -239,9 +241,9 @@ class TestPyeasyga(unittest.TestCase):
         self.ga.create_first_generation()
         last_generation = self.ga.last_generation()
 
-        assert isinstance(last_generation.next(), type((1, [1, 1, 1, 1, 1])))
-        assert len(last_generation.next()) == 2
-        assert len(last_generation.next()[1]) == 5
+        assert isinstance(next(last_generation), type((1, [1, 1, 1, 1, 1])))
+        assert len(next(last_generation)) == 2
+        assert len(next(last_generation)[1]) == 5
 
     def tearDown(self):
         pass
