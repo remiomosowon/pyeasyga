@@ -29,8 +29,7 @@ def find_version(*file_paths):
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = [
-]
+requirements = ['six']
 
 test_requirements = ['tox']
 
