@@ -3,32 +3,53 @@
 History
 -------
 
-2014-07-09 (v0.2.5)
-~~~~~~~~~~~~~~~~~~~
+v0.3.0
+~~~~~~
 
-* Modified usage documentation
-* Added example documentation as separate section
+**2015-04-07**
 
-2014-07-07 (v0.2.4)
-~~~~~~~~~~~~~~~~~~~
+* Added Python 3.4 support without breaking Python 2 compatibility (thanks to `yasserglez <https://github.com/yasserglez>`_)
 
-* Modified installation documentation
-* Refactored majority of code; made classes more OOP
+v0.2.5
+~~~~~~
 
-2014-07-05 (v0.2.3)
-~~~~~~~~~~~~~~~~~~~
+**2014-07-09**
+
+* Added an example that solves the `8 Queens Puzzle
+  <http://en.wikipedia.org/wiki/Eight_queens_puzzle>`_
+
+**2014-07-09**
+
+* Modified the GeneticAlgorithm class initialisation parameters
+* Made changes to USAGE documentation
+* Added EXAMPLE documentation as a separate section
+
+v0.2.4
+~~~~~~
+
+**2014-07-07**
+
+* Refactored most of the code; Made GeneticAlgorithm class more OOP
+* Made changes to INSTALLATION documentation
+
+v0.2.3
+~~~~~~
+
+**2014-07-05**
 
 * Fixed breaking python 2.6 build
 
-2014-07-05 (v0.2.2)
-~~~~~~~~~~~~~~~~~~~
+v0.2.2
+~~~~~~
+
+**2014-07-05**
 
 * Removed duplicate ‘Example’ documentation; now maintaining only one copy in 
   examples/README.rst
 * Added link to jeffknupp’s sandman repo in HISTORY
-* Modified make release to also upload project documentation
-* Added Installation, and Example info to README.rst
-* Removed easy_install installation step from docs/installation.rst (pip is 
+* Modified release option in Makefile to also upload project documentation
+* Added INSTALLATION and EXAMPLE sections to README.rst
+* Removed easy_install installation step from documentation (pip is 
   sufficient)
 * Added a simple example of usage to docs/usage.rst
 * Reduced the default GA population and generation size (to allow applications 
@@ -36,14 +57,22 @@ History
 * Modified tests to account for the new default population, generation size
 * Added docstrings to all methods
 
-2014-07-04 (v0.2.0)
-~~~~~~~~~~~~~~~~~~~
+v0.2.0
+~~~~~~
 
-* Upload to pypi.
-* Reflect changes in HISTORY (pypi upload, new version)
+**2014-07-04**
 
-2014-07-03 (v0.1.0)
-~~~~~~~~~~~~~~~~~~~
+* First upload to pypi.
+* Added changes made to HISTORY (pypi upload, new version)
+
+v0.1.0
+~~~~~~
+
+**2014-06-23**
+
+* Start of ``pyeasyga`` development.
+
+**2014-07-03**
 
 * Implemented all of basic GA functionality
 * Fix issue with odd-numbered population that causes an off-by-one error in the 
@@ -59,7 +88,3 @@ History
   - minor => new features
   - micro => bug fixes
 
-2014-06-23 (v0.1.0)
-~~~~~~~~~~~~~~~~~~~
-
-* Start of ``pyeasyga`` development.

@@ -29,8 +29,7 @@ def find_version(*file_paths):
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requirements = [
-]
+requirements = ['six']
 
 test_requirements = ['tox']
 
@@ -57,9 +56,13 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
+        'Operating System :: OS Independent',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.4",
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
     test_suite='tests',
     tests_require=test_requirements

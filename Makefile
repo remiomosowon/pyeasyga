@@ -22,6 +22,7 @@ clean-build:
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
 	find . -name '*.pyo' -exec rm -f {} +
+	find . -name '*.py-e' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
 clean-tox:
@@ -51,11 +52,11 @@ docs:
 	open docs/_build/html/index.html
 
 release: clean
-	python setup.py sdist upload
-	python setup.py upload_docs
-	python setup.py bdist_wheel upload
+	python setup.py sdist --formats=gztar,zip upload -r pypi
+	python setup.py upload_docs -r pypi
+	python setup.py bdist_wheel upload -r pypi
 
 dist: clean
-	python setup.py sdist
+	python setup.py sdist --formats=gztar,zip
 	python setup.py bdist_wheel
 	ls -l dist

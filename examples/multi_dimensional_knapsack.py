@@ -10,6 +10,7 @@ data = [(821, 0.8, 118), (1144, 1, 322), (634, 0.7, 166), (701, 0.9, 195),
         (993, 0.7, 130), (99, 0.7, 100), (1068, 0.8, 154), (1669, 1, 289)]
 
 ga = pyeasyga.GeneticAlgorithm(data)        # initialise the GA with data
+ga.population_size = 200                    # increase population size to 200
 
 
 # define a fitness function
