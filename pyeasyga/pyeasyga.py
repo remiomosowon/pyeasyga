@@ -8,6 +8,8 @@ import random
 import copy
 from operator import attrgetter
 
+from six.moves import range
+
 
 class GeneticAlgorithm(object):
     """Genetic Algorithm class.
@@ -65,14 +67,14 @@ class GeneticAlgorithm(object):
 
             e.g. for a bit array representation:
 
-            >>> return [random.randint(0, 1) for _ in xrange(len(data))]
+            >>> return [random.randint(0, 1) for _ in range(len(data))]
 
             :param seed_data: input data to the Genetic Algorithm
             :type seed_data: list of objects
             :returns: candidate solution representation as a list
 
             """
-            return [random.randint(0, 1) for _ in xrange(len(seed_data))]
+            return [random.randint(0, 1) for _ in range(len(seed_data))]
 
         def crossover(parent_1, parent_2):
             """Crossover (mate) two parents to produce two children.
@@ -109,7 +111,7 @@ class GeneticAlgorithm(object):
 
         self.fitness_function = None
         self.tournament_selection = tournament_selection
-        self.tournament_size = self.population_size / 10
+        self.tournament_size = self.population_size // 10
         self.random_selection = random_selection
         self.create_individual = create_individual
         self.crossover_function = crossover
@@ -120,7 +122,7 @@ class GeneticAlgorithm(object):
         """Create members of the first population randomly.
         """
         initial_population = []
-        for _ in xrange(self.population_size):
+        for _ in range(self.population_size):
             genes = self.create_individual(self.seed_data)
             individual = Chromosome(genes)
             initial_population.append(individual)
@@ -196,7 +198,7 @@ class GeneticAlgorithm(object):
         """Run (solve) the Genetic Algorithm."""
         self.create_first_generation()
 
-        for _ in xrange(1, self.generations):
+        for _ in range(1, self.generations):
             self.create_next_generation()
 
     def best_individual(self):
