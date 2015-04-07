@@ -5,3 +5,4 @@ coverage==3.7.1
 flake8==2.2.0
 tox==1.7.1
 wheel==0.23.0
+six==1.9.0

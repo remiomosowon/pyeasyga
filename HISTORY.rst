@@ -3,6 +3,13 @@
 History
 -------
 
+v0.3.0
+~~~~~~
+
+**2015-04-07**
+
+* Added Python 3.4 support without breaking Python 2 compatibility (thanks to `yasserglez <https://github.com/yasserglez>`_)
+
 v0.2.5
 ~~~~~~
 
