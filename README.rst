@@ -57,6 +57,6 @@ Note
 .. |Coverage Status| image:: https://coveralls.io/repos/remiomosowon/pyeasyga/badge.png?branch=develop
    :target: https://coveralls.io/r/remiomosowon/pyeasyga?branch=develop
 
-.. |Downloads| image:: https://pypip.in/d/pyeasyga/badge.png
+.. |Downloads| image:: https://img.shields.io/pypi/dm/pyeasyga.png
    :target: https://pypi.python.org/pypi/pyeasyga
 
