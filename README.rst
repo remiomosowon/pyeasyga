@@ -6,7 +6,7 @@ pyeasyga
 
 Introduction
 ------------
-A simple and easy-to-use Genetic Algorithm implementation library in Python.
+A simple and easy-to-use implementation of a Genetic Algorithm library in Python.
 
 ``pyeasyga`` provides a simple interface to the power of Genetic Algorithms
 (GAs). You don't have to have expert GA knowledge in order to use it.

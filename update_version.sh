@@ -1,4 +1,5 @@
 # Remember to initialise git flow first (i.e. 'git flow init')
+# and to supply a version argument (e.g. 0.3.1) when running this file.
 git flow release start v$1
 sed -i -e "s/__version__ = '.*'/__version__ = '$1'/g" pyeasyga/__init__.py
 rm -rf docs/generated

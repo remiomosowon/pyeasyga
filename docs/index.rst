@@ -5,7 +5,7 @@
 pyeasyga
 ==================================================
 
-*A simple and easy-to-use Genetic Algorithm implementation library in Python*
+*A simple and easy-to-use implementation of a Genetic Algorithm library in Python*
 
 **Contents:**
 
