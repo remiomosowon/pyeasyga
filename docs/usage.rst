@@ -112,9 +112,9 @@ Advanced
         def mutate(individual):
             mutate_index = random.randrange(len(individual))
             if individual[mutate_index] == 0:
-                individual[mutate_index] == 1
+                individual[mutate_index] = 1
             else:
-                individual[mutate_index] == 0
+                individual[mutate_index] = 0
 
         # and set the Genetic Algorithm's ``mutate_function`` attribute to
         # your defined function
@@ -221,9 +221,9 @@ apple gives the highest possible cost of 90.)* ::
     >>> def mutate(individual):
     >>>     mutate_index = random.randrange(len(individual))
     >>>     if individual[mutate_index] == 0:
-    >>>         individual[mutate_index] == 1
+    >>>         individual[mutate_index] = 1
     >>>     else:
-    >>>         individual[mutate_index] == 0
+    >>>         individual[mutate_index] = 0
     >>>
     >>> ga.mutate_function = mutate
     >>>
