@@ -66,7 +66,8 @@ Advanced
                                        crossover_probability=0.8,
                                        mutation_probability=0.05,
                                        elitism=True,
-                                       maximise_fitness=True)
+                                       maximise_fitness=True,
+                                       verbose=False)
                                        
 
        Or ::
