@@ -40,7 +40,8 @@ class GeneticAlgorithm(object):
                  crossover_probability=0.8,
                  mutation_probability=0.2,
                  elitism=True,
-                 maximise_fitness=True):
+                 maximise_fitness=True,
+                 verbose=False):
         """Instantiate the Genetic Algorithm.
 
         :param seed_data: input data to the Genetic Algorithm
@@ -59,6 +60,7 @@ class GeneticAlgorithm(object):
         self.mutation_probability = mutation_probability
         self.elitism = elitism
         self.maximise_fitness = maximise_fitness
+        self.verbose = verbose
 
         self.current_generation = []
 
@@ -193,6 +195,8 @@ class GeneticAlgorithm(object):
         self.create_new_population()
         self.calculate_population_fitness()
         self.rank_population()
+        if self.verbose:
+            print("Fitness: %f" % self.best_individual()[0])
 
     def run(self):
         """Run (solve) the Genetic Algorithm."""
