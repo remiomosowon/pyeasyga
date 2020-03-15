@@ -10,7 +10,6 @@ before_install:
   - python --version
   - pip install -U pip
   - pip install coveralls
-  - pip install -U coverage
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
@@ -18,7 +17,7 @@ install:
 
 # command to run tests, e.g. python setup.py test
 script:
-    coverage run --source=pyeasyga setup.py test
+    python -m unittest discover tests/
 
 after_success:
     coveralls
