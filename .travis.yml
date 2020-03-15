@@ -4,16 +4,20 @@ language: python
 
 python:
   - "2.7"
-  - "3.6"
+  - "3.8"
+
+before_install:
+  - python --version
+  - pip install -U pip
+  - pip install coveralls
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
   - pip install -r requirements.txt
-  - pip install coveralls
 
 # command to run tests, e.g. python setup.py test
 script:
-    coverage run --source=pyeasyga setup.py test
+    python -m unittest discover tests/
 
 after_success:
     coveralls
