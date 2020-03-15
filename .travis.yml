@@ -18,7 +18,7 @@ install:
 
 # command to run tests, e.g. python setup.py test
 script:
-    coverage run --source=pyeasyga setup.py test
+    python -m unittest discover tests/
 
 after_success:
     coveralls
