@@ -26,8 +26,8 @@ def find_version(*file_paths):
         raise RuntimeError("Unable to find version string.")
 
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = open('README.rst', encoding="utf8").read()
+history = open('HISTORY.rst', encoding="utf8").read().replace('.. :changelog:', '')
 
 requirements = ['six']
 
