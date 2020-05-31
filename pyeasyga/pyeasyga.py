@@ -41,7 +41,8 @@ class GeneticAlgorithm(object):
                  mutation_probability=0.2,
                  elitism=True,
                  maximise_fitness=True,
-                 verbose=False):
+                 verbose=False,
+                 random_state=None):
         """Instantiate the Genetic Algorithm.
 
         :param seed_data: input data to the Genetic Algorithm
@@ -50,6 +51,7 @@ class GeneticAlgorithm(object):
         :param int generations: number of generations to evolve
         :param float crossover_probability: probability of crossover operation
         :param float mutation_probability: probability of mutation operation
+        :param int: random seed. defaults to None
 
         """
 
@@ -61,6 +63,9 @@ class GeneticAlgorithm(object):
         self.elitism = elitism
         self.maximise_fitness = maximise_fitness
         self.verbose = verbose
+
+        # seed random number generator
+        self.random = random.Random(random_state)
 
         self.current_generation = []
 
@@ -76,7 +81,7 @@ class GeneticAlgorithm(object):
             :returns: candidate solution representation as a list
 
             """
-            return [random.randint(0, 1) for _ in range(len(seed_data))]
+            return [self.random.randint(0, 1) for _ in range(len(seed_data))]
 
         def crossover(parent_1, parent_2):
             """Crossover (mate) two parents to produce two children.
@@ -86,19 +91,19 @@ class GeneticAlgorithm(object):
             :returns: tuple containing two children
 
             """
-            index = random.randrange(1, len(parent_1))
+            index = self.random.randrange(1, len(parent_1))
             child_1 = parent_1[:index] + parent_2[index:]
             child_2 = parent_2[:index] + parent_1[index:]
             return child_1, child_2
 
         def mutate(individual):
             """Reverse the bit of a random index in an individual."""
-            mutate_index = random.randrange(len(individual))
+            mutate_index = self.random.randrange(len(individual))
             individual[mutate_index] = (0, 1)[individual[mutate_index] == 0]
 
         def random_selection(population):
             """Select and return a random member of the population."""
-            return random.choice(population)
+            return self.random.choice(population)
 
         def tournament_selection(population):
             """Select a random number of individuals from the population and
@@ -106,7 +111,7 @@ class GeneticAlgorithm(object):
             """
             if self.tournament_size == 0:
                 self.tournament_size = 2
-            members = random.sample(population, self.tournament_size)
+            members = self.random.sample(population, self.tournament_size)
             members.sort(
                 key=attrgetter('fitness'), reverse=self.maximise_fitness)
             return members[0]
@@ -160,8 +165,8 @@ class GeneticAlgorithm(object):
             child_1, child_2 = parent_1, parent_2
             child_1.fitness, child_2.fitness = 0, 0
 
-            can_crossover = random.random() < self.crossover_probability
-            can_mutate = random.random() < self.mutation_probability
+            can_crossover = self.random.random() < self.crossover_probability
+            can_mutate = self.random.random() < self.mutation_probability
 
             if can_crossover:
                 child_1.genes, child_2.genes = self.crossover_function(
