@@ -230,6 +230,17 @@ class TestPyeasyga(unittest.TestCase):
         assert len(next(last_generation)) == 2
         assert len(next(last_generation)[1]) == 5
 
+    def test_run_parallel(self):
+        self.ga.run(n_workers=4, parallel_type="threading")
+        current_gen = self.ga.current_generation
+        last_generation = self.ga.last_generation()
+
+        assert len(current_gen) == self.ga.population_size
+        assert isinstance(current_gen[0], type(pyeasyga.Chromosome([1])))
+        assert isinstance(next(last_generation), type((1, [1, 1, 1, 1, 1])))
+        assert len(next(last_generation)) == 2
+        assert len(next(last_generation)[1]) == 5
+
     def test_best_individual(self):
         self.ga.create_first_generation()
         best_fitness, best_genes = self.ga.best_individual()

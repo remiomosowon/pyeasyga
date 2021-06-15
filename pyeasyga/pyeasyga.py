@@ -6,6 +6,7 @@
 
 import random
 import copy
+from concurrent import futures
 from operator import attrgetter
 
 from six.moves import range
@@ -135,13 +136,34 @@ class GeneticAlgorithm(object):
             initial_population.append(individual)
         self.current_generation = initial_population
 
-    def calculate_population_fitness(self):
+    def calculate_population_fitness(self, n_workers=None, parallel_type="processing"):
         """Calculate the fitness of every member of the given population using
         the supplied fitness_function.
         """
-        for individual in self.current_generation:
-            individual.fitness = self.fitness_function(
-                individual.genes, self.seed_data)
+        # If using a single worker, run on a simple for loop to avoid losing
+        # time creating processes.
+        if n_workers == 1:
+
+            for individual in self.current_generation:
+                individual.fitness = self.fitness_function(
+                    individual.genes, self.seed_data)
+        else:
+
+            if "process" in parallel_type.lower():
+                executor = futures.ProcessPoolExecutor(max_workers=n_workers)
+            else:
+                executor = futures.ThreadPoolExecutor(max_workers=n_workers)
+
+            # Create two lists from the same size to be passed as args to the
+            # map function.
+            genes = [individual.genes for individual in self.current_generation]
+            data = [self.seed_data for _ in self.current_generation]
+
+            with executor as pool:
+                results = pool.map(self.fitness_function, genes, data)
+
+            for individual, result in zip(self.current_generation, results):
+                individual.fitness = result
 
     def rank_population(self):
         """Sort the population by fitness according to the order defined by
@@ -185,30 +207,38 @@ class GeneticAlgorithm(object):
 
         self.current_generation = new_population
 
-    def create_first_generation(self):
+    def create_first_generation(self, n_workers=None, parallel_type="processing"):
         """Create the first population, calculate the population's fitness and
         rank the population by fitness according to the order specified.
         """
         self.create_initial_population()
-        self.calculate_population_fitness()
+        self.calculate_population_fitness(
+            n_workers=n_workers, parallel_type=parallel_type
+        )
         self.rank_population()
 
-    def create_next_generation(self):
+    def create_next_generation(self, n_workers=None, parallel_type="processing"):
         """Create subsequent populations, calculate the population fitness and
         rank the population by fitness in the order specified.
         """
         self.create_new_population()
-        self.calculate_population_fitness()
+        self.calculate_population_fitness(
+            n_workers=n_workers, parallel_type=parallel_type
+        )
         self.rank_population()
         if self.verbose:
             print("Fitness: %f" % self.best_individual()[0])
 
-    def run(self):
+    def run(self, n_workers=None, parallel_type="processing"):
         """Run (solve) the Genetic Algorithm."""
-        self.create_first_generation()
+        self.create_first_generation(
+                n_workers=n_workers, parallel_type=parallel_type
+            )
 
         for _ in range(1, self.generations):
-            self.create_next_generation()
+            self.create_next_generation(
+                n_workers=n_workers, parallel_type=parallel_type
+            )
 
     def best_individual(self):
         """Return the individual with the best fitness in the current
