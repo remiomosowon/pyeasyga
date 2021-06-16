@@ -36,6 +36,7 @@ class GeneticAlgorithm(object):
 
     def __init__(self,
                  seed_data,
+                 initial_population=None,
                  population_size=50,
                  generations=100,
                  crossover_probability=0.8,
@@ -48,6 +49,10 @@ class GeneticAlgorithm(object):
 
         :param seed_data: input data to the Genetic Algorithm
         :type seed_data: list of objects
+        :param list initial_population: list of lists representing initial
+                                        initial population. If list is smaller
+                                        than population size, the rest will be
+                                        generated randomly
         :param int population_size: size of population
         :param int generations: number of generations to evolve
         :param float crossover_probability: probability of crossover operation
@@ -117,6 +122,17 @@ class GeneticAlgorithm(object):
                 key=attrgetter('fitness'), reverse=self.maximise_fitness)
             return members[0]
 
+        def check_initial_population(population):
+            """Check for errors in the initial population before using it
+            Returns the population if there are no errors
+            """
+            if not population:  # if initial population is None
+                return []
+            if len(population) > self.population_size:
+                raise ValueError('Length of the initial population exceeds '
+                                 'the size of population')
+            return population
+
         self.fitness_function = None
         self.tournament_selection = tournament_selection
         self.tournament_size = self.population_size // 10
@@ -125,12 +141,18 @@ class GeneticAlgorithm(object):
         self.crossover_function = crossover
         self.mutate_function = mutate
         self.selection_function = self.tournament_selection
+        self.initial_population = check_initial_population(initial_population)
 
     def create_initial_population(self):
         """Create members of the first population randomly.
         """
         initial_population = []
-        for _ in range(self.population_size):
+
+        for genes in self.initial_population:
+            individual = Chromosome(genes)
+            initial_population.append(individual)
+
+        for _ in range(self.population_size - len(initial_population)):
             genes = self.create_individual(self.seed_data)
             individual = Chromosome(genes)
             initial_population.append(individual)
