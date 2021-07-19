@@ -43,7 +43,8 @@ class GeneticAlgorithm(object):
                  elitism=True,
                  maximise_fitness=True,
                  verbose=False,
-                 random_state=None):
+                 random_state=None,
+                 capture_generation=None):
         """Instantiate the Genetic Algorithm.
 
         :param seed_data: input data to the Genetic Algorithm
@@ -67,6 +68,10 @@ class GeneticAlgorithm(object):
 
         # seed random number generator
         self.random = random.Random(random_state)
+
+        # current ranked population ( i.e. fitness already calculated )
+        #  capturing middleware
+        self.capture_generation = capture_generation
 
         self.current_generation = []
 
@@ -217,6 +222,12 @@ class GeneticAlgorithm(object):
         )
         self.rank_population()
 
+        # if current (initial) population is intended to be captured
+        # provided function to be invoked, which can perform
+        # its own processing on population data
+        if self.capture_generation:
+            self.capture_generation(copy.deepcopy(self.current_generation))
+
     def create_next_generation(self, n_workers=None, parallel_type="processing"):
         """Create subsequent populations, calculate the population fitness and
         rank the population by fitness in the order specified.
@@ -228,6 +239,12 @@ class GeneticAlgorithm(object):
         self.rank_population()
         if self.verbose:
             print("Fitness: %f" % self.best_individual()[0])
+
+        # if current population is intended to be captured
+        # provided function to be invoked, which can perform
+        # its own processing on population data
+        if self.capture_generation:
+            self.capture_generation(copy.deepcopy(self.current_generation))
 
     def run(self, n_workers=None, parallel_type="processing"):
         """Run (solve) the Genetic Algorithm."""

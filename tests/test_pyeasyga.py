@@ -18,6 +18,13 @@ from pyeasyga import pyeasyga
 
 
 class TestPyeasyga(unittest.TestCase):
+    def _capture_generation(self, population):
+        fitness = [i.fitness for i in population]
+        self.population_metrics.append(
+            {
+                'max': max(fitness),
+                'mean': sum(fitness) / len(fitness),
+                'min': min(fitness)})
 
     def setUp(self):
         """Test Problem: Assume you can only carry 3 items to sell in your bag.
@@ -48,6 +55,9 @@ class TestPyeasyga(unittest.TestCase):
              member.count(1) == 3])
 
         self.ga.selection_function = self.ga.tournament_selection
+
+        self.population_metrics = []
+        self.ga.capture_generation = self._capture_generation
 
     def test_genetic_algorithm_initialisation_1(self):
         ''' Test default initialisation '''
@@ -255,6 +265,16 @@ class TestPyeasyga(unittest.TestCase):
         assert isinstance(next(last_generation), type((1, [1, 1, 1, 1, 1])))
         assert len(next(last_generation)) == 2
         assert len(next(last_generation)[1]) == 5
+
+    def test_population_capture(self):
+        self.ga.run()
+
+        current_gen = self.ga.current_generation
+        fitness = [i.fitness for i in current_gen]
+
+        assert max(fitness), self.population_metrics[-1]['max']
+        assert min(fitness), self.population_metrics[-1]['min']
+        assert sum(fitness) / len(fitness), self.population_metrics[-1]['mean']
 
     def tearDown(self):
         pass
